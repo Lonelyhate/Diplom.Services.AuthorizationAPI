@@ -73,9 +73,12 @@ public class UserService : IUserService
             
             _accountHelper.CreatedPasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var user = _mapper.Map<User>(model);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            var user = new User
+            {
+                Email = model.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
 
             await _userRepository.Create(user);
 

@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.AuthorizationAPI.Models.RequestModels;
 using Services.AuthorizationAPI.Models.Services.Interfaces;
@@ -49,5 +51,12 @@ public class UserController : Controller
         if (response.StatusCodes == Enums.StatusCode.BadRequest) return StatusCode(400, response);
 
         return Json(response);
+    }
+
+    [HttpGet("auth")]
+    [Authorize]
+    public async Task<IActionResult> Auth()
+    {
+        string? email = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
     }
 }
