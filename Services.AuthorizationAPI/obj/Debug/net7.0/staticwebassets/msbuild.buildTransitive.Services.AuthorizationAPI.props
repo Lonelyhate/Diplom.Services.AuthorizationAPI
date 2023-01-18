@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Services.AuthorizationAPI.props" />
+</Project>
