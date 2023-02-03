@@ -9,5 +9,6 @@ public interface IUserService
     Task<UserRegistrationResponseModel> Registration(RegistrationRequestModel model);
 
     Task<UserLoginResponseModel> Login(LoginRequestModel model);
-    
+
+    Task<UserAuthResponseModel> Auth(string login);
 }

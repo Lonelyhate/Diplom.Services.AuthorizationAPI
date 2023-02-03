@@ -142,4 +142,38 @@ public class UserService : IUserService
             };
         }
     }
+
+    public async Task<UserAuthResponseModel> Auth(string login)
+    {
+        try
+        {
+            var response = new UserAuthResponseModel();
+
+            var userCheck = await _userRepository.GetByEmail(login);
+            if (userCheck is null)
+            {
+                response.DisplayMessage = "Пользователя с таким логином не существует";
+                response.isSuccess = false;
+                response.StatusCodes = StatusCode.BadRequest;
+                return response;
+            }
+
+            string token = _accountHelper.CreateToken(userCheck);
+
+            response.Data = _mapper.Map<UserViewModel>(userCheck);
+            response.Data.token = token;
+            response.StatusCodes = StatusCode.OK;
+            return response;
+        }
+        catch(Exception e)
+        {
+            return new UserAuthResponseModel
+            {
+                isSuccess = false,
+                StatusCodes = StatusCode.InternalServerError,
+                DisplayMessage = "Ошибка сервера",
+                ErrorMessage = new List<string>() { e.ToString() }
+            };
+        }
+}
 }

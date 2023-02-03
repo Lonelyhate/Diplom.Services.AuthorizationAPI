@@ -54,9 +54,18 @@ public class UserController : Controller
     }
 
     [HttpGet("auth")]
-    [Authorize]
     public async Task<IActionResult> Auth()
     {
-        string? email = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+        string? login = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+        
+        Console.WriteLine(login);
+
+        var response = await _userService.Auth(login);
+
+        if (response.StatusCodes == Enums.StatusCode.InternalServerError) return StatusCode(500, response);
+
+        if (response.StatusCodes == Enums.StatusCode.BadRequest) return StatusCode(400, response);
+
+        return Json(response);
     }
 }
