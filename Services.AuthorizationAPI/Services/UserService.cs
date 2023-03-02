@@ -175,5 +175,44 @@ public class UserService : IUserService
                 ErrorMessage = new List<string>() { e.ToString() }
             };
         }
-}
+    }
+    
+    public async Task<UserUpdateResponeModel> Update(UpdateUserRequestModel model)
+    {
+        try
+        {
+            var response = new UserUpdateResponeModel();
+            var user = await _userRepository.GetById(model.Id);
+            if (user is null)
+            {
+                response.isSuccess = false;
+                response.DisplayMessage = "Пользователь не найден";
+                response.StatusCodes = StatusCode.BadRequest;
+                return response;
+            }
+
+            user.Email = model.Email;
+            user.Firstname = model.Firstname;
+            user.Lastname = model.Lastname;
+            user.Phone = model.Phone;
+            user = await _userRepository.Update(user);
+
+            string token = _accountHelper.CreateToken(user);
+
+            response.Data = _mapper.Map<UserViewModel>(user);
+            response.Data.token = token;
+            response.StatusCodes = StatusCode.OK;
+            return response;
+        }
+        catch(Exception e)
+        {
+            return new UserUpdateResponeModel
+            {
+                isSuccess = false,
+                StatusCodes = StatusCode.InternalServerError,
+                DisplayMessage = "Ошибка сервера",
+                ErrorMessage = new List<string>() { e.ToString() }
+            };
+        }
+    }
 }

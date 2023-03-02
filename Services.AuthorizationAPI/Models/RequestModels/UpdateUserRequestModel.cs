@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Services.AuthorizationAPI.Models.ViewModels;
+namespace Services.AuthorizationAPI.Models.RequestModels;
 
-public class UserViewModel
+public class UpdateUserRequestModel
 {
     /// <summary>
     /// Идентификатор
@@ -27,9 +27,4 @@ public class UserViewModel
     
     [JsonPropertyName("phone")]
     public string? Phone { get; set; } = "";
-    
-    /// <summary>
-    /// Токен пользователя
-    /// </summary>
-    public string? token { get; set; }
 }

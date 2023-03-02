@@ -18,9 +18,9 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<User> GetById(int id)
+    public async Task<User> GetById(int id)
     {
-        throw new NotImplementedException();
+        return await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<User> Create(User model)
@@ -30,9 +30,11 @@ public class UserRepository : IUserRepository
         return user.Entity;
     }
 
-    public Task<User> Update(User model)
+    public async Task<User> Update(User model)
     {
-        throw new NotImplementedException();
+        var user = _db.Users.Update(model);
+        await _db.SaveChangesAsync();
+        return user.Entity;
     }
 
     public Task<bool> Delete(User model)

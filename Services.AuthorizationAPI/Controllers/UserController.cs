@@ -57,11 +57,21 @@ public class UserController : Controller
     public async Task<IActionResult> Auth()
     {
         string? login = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
-        
-        Console.WriteLine(login);
 
         var response = await _userService.Auth(login);
 
+        if (response.StatusCodes == Enums.StatusCode.InternalServerError) return StatusCode(500, response);
+
+        if (response.StatusCodes == Enums.StatusCode.BadRequest) return StatusCode(400, response);
+
+        return Json(response);
+    }
+
+    [HttpPut("update")]
+    public async Task<IActionResult> Update(UpdateUserRequestModel model)
+    {
+        var response = await _userService.Update(model);
+        
         if (response.StatusCodes == Enums.StatusCode.InternalServerError) return StatusCode(500, response);
 
         if (response.StatusCodes == Enums.StatusCode.BadRequest) return StatusCode(400, response);

@@ -36,4 +36,13 @@ public class User
     [Required]
     [Column("password_salt")]
     public byte[] PasswordSalt { get; set; }
+    
+    [Column("firstname")]
+    public string? Firstname { get; set; }
+    
+    [Column("lastname")]
+    public string? Lastname { get; set; }
+    
+    [Column("phone")]
+    public string? Phone { get; set; } 
 }
