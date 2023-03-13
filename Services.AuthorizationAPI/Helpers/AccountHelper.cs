@@ -38,7 +38,8 @@ public class AccountHelper : IAccountHelper
     {
         List<Claim> claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.Name, user.Email)
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
         var key = new SymmetricSecurityKey(
