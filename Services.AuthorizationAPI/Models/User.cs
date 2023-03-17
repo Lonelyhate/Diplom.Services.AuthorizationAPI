@@ -44,5 +44,5 @@ public class User
     public string? Lastname { get; set; }
     
     [Column("phone")]
-    public string? Phone { get; set; } 
+    public string? Phone { get; set; }
 }

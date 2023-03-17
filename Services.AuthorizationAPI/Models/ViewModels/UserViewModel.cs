@@ -27,7 +27,7 @@ public class UserViewModel
     
     [JsonPropertyName("phone")]
     public string? Phone { get; set; } = "";
-    
+
     /// <summary>
     /// Токен пользователя
     /// </summary>

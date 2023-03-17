@@ -16,4 +16,7 @@ public class AddressesUser
     
     [Column("address")]
     public string Address { get; set; }
+
+    [Column("is_active_address")]
+    public int? isActiveAddress { get; set; } = 0;
 }
