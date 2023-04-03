@@ -14,6 +14,8 @@ public class MappingExtension
             config.CreateMap<User, UserViewModel>();
             config.CreateMap<AddressViewModel, AddressesUser>();
             config.CreateMap<AddressesUser, AddressViewModel>();
+            config.CreateMap<Discount, DiscountViewModel>();
+            config.CreateMap<DiscountViewModel, Discount>();
         });
 
         return mappingConfiguration;

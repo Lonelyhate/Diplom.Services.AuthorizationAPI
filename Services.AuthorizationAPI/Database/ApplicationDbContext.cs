@@ -13,4 +13,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     
     public DbSet<AddressesUser> AddressesUsers { get; set; }
+    
+    public DbSet<Discount> Discounts { get; set; }
 }
