@@ -43,10 +43,4 @@ public class Discount
     /// </summary>
     [Column("amount_before_discount")]
     public int AmountBeforeDiscount { get; set; }
-    
-    /// <summary>
-    /// Текущая сумма до скидки
-    /// </summary>
-    [Column("current_sum_amount_before_discount")]
-    public int currentSumBerforeDiscount { get; set; }
 }

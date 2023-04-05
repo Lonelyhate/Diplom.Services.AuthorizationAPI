@@ -62,7 +62,6 @@ public class DiscountService : IDiscountService
                 NumberCard = numberCard,
                 SizeDiscount = 0,
                 AmountBeforeDiscount = 50000,
-                currentSumBerforeDiscount = 0
             };
 
             var discount = await _discountRepository.Create(model);
@@ -107,13 +106,35 @@ public class DiscountService : IDiscountService
             }
 
             discount.AmountPurchases += model.Amount;
-            discount.currentSumBerforeDiscount += (int)model.Amount;
-            decimal discountDifference = discount.AmountBeforeDiscount - discount.currentSumBerforeDiscount;
+            if (discount.SizeDiscount == 20)
+            {
+                response.Data = _mapper.Map<DiscountViewModel>(discount);
+                response.DisplayMessage = "Достигнута максимальная скидка";
+                response.StatusCodes = StatusCode.OK;
+                return response;
+            }
+            decimal discountDifference = discount.AmountBeforeDiscount - discount.AmountPurchases;
             if (discountDifference <= 0 && discount.SizeDiscount != 20)
             {
-                discount.currentSumBerforeDiscount = 0 - (int)discountDifference;
                 discount.SizeDiscount += 5;
-                discount.AmountBeforeDiscount = 50000 + (int)discountDifference;
+                switch (discount.SizeDiscount)
+                {
+                    case 5:
+                        discount.AmountBeforeDiscount = 100000;
+                        break;
+                    case 10: discount.AmountBeforeDiscount = 150000;
+                        break;
+                    case 15:
+                        discount.AmountBeforeDiscount = 200000;
+                        break;
+                    default:
+                        discount.AmountBeforeDiscount = 0;
+                        var discountMax = await _discountRepository.Update(discount);
+                        response.Data = _mapper.Map<DiscountViewModel>(discountMax);
+                        response.DisplayMessage = "Достигнута максимальная скидка";
+                        response.StatusCodes = StatusCode.OK;
+                        return response;
+                }
             }
 
             var discountResponse = await _discountRepository.Update(discount);
